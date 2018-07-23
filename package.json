@@ -4,7 +4,7 @@
   "description": "FastBoot Server for NYPR Apps",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha"
   },
   "repository": {
     "type": "git",
@@ -23,5 +23,11 @@
     "fastboot-app-server": "^1.1.2-beta.1",
     "fastboot-s3-downloader": "^0.2.2",
     "fastboot-s3-notifier": "^0.1.2"
+  },
+  "devDependencies": {
+    "aws-sdk-mock": "^4.0.0",
+    "eslint-plugin-mocha": "^5.1.0",
+    "mocha": "^5.2.0",
+    "sinon": "^6.1.4"
   }
 }
