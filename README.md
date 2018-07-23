@@ -1,3 +1,5 @@
+[![CircleCI](https://circleci.com/gh/nypublicradio/nypr-fastboot.svg?style=svg)](https://circleci.com/gh/nypublicradio/nypr-fastboot)
+
 # nypr-fastboot
 
 FastBoot app server preloaded with middlware for NYPR ember apps.
