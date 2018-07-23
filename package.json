@@ -18,7 +18,6 @@
   "homepage": "https://github.com/nypublicradio/nypr-fastboot#readme",
   "dependencies": {
     "aws-sdk": "^2.279.1",
-    "dotenv": "^6.0.0",
     "eslint": "^5.2.0",
     "fastboot-app-server": "^1.1.2-beta.1",
     "fastboot-s3-downloader": "^0.2.2",
