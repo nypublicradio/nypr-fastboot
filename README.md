@@ -10,17 +10,30 @@ const fastboot = require('nypr-fastboot');
 
 const server = fastboot({
   bucket: process.env.AWS_BUCKET,
-  uaString: 'ELB-HealthChecker'
+  manifestKey: process.env.FASTBOOT_MANIFEST,
+  healthCheckerUA: 'ELB-HealthChecker'
 });
 
 server.start();
+```
+
+FastBoot config options (e.g. `gzip`, `port`, `chunkedResponse`) can be passed in an object under the key `fastbootConfig`, like so:
+```node
+const fastboot = require('nypr-fastboot');
+
+const server = fastboot({
+  bucket: process.env.AWS_BUCKET,
+  manifestKey: process.env.FASTBOOT_MANIFEST,
+  healthCheckerUA: 'ELB-HealthChecker',
+  fastbootConfig: { port: 5000 },
+})
 ```
 
 ## Included Middleware
 
 ### health-checker
 
-Bypasses FastBoot if the `User-Agent` header matches the configured `uaString` value.
+Bypasses FastBoot if the `User-Agent` header matches the configured `healthCheckerUA` value.
 
 ### preview
 
