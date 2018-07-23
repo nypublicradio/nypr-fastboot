@@ -33,3 +33,10 @@ Targets a specific build using the `v` and `build` query params according to the
 - `v` and `build`: combines the above and loads the index file located at `<build>/index.html:<v>`
 
 If neither are passed, this middleware is a no op and it moves onto the next function in the middleware stack.
+
+## Tests
+
+Run the tests with:
+```node
+$ npm test
+```
