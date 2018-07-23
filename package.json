@@ -1,0 +1,27 @@
+{
+  "name": "nypr-fastboot",
+  "version": "0.0.0",
+  "description": "FastBoot Server for NYPR Apps",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/nypublicradio/nypr-fastboot.git"
+  },
+  "author": "Digital Ops",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/nypublicradio/nypr-fastboot/issues"
+  },
+  "homepage": "https://github.com/nypublicradio/nypr-fastboot#readme",
+  "dependencies": {
+    "aws-sdk": "^2.279.1",
+    "dotenv": "^6.0.0",
+    "eslint": "^5.2.0",
+    "fastboot-app-server": "^1.1.2-beta.1",
+    "fastboot-s3-downloader": "^0.2.2",
+    "fastboot-s3-notifier": "^0.1.2"
+  }
+}
