@@ -17,13 +17,13 @@ describe('health checker middleware', function() {
   });
 
   it('it sends an empty 200 on partial matches', async function() {
-    const UA_STRING = 'foo-bar';
+    const UA_STRING = 'foo';
     const response = {sendStatus: sinon.mock('send response').withArgs(200).once()};
     const next = sinon.mock('next').never();
 
     const healthChecker = middleware({ uaString: UA_STRING });
 
-    healthChecker({ headers: {'user-agent': 'foo' }}, response, next);
+    healthChecker({ headers: {'user-agent': 'foo-bar' }}, response, next);
 
     next.verify();
     response.sendStatus.verify();
