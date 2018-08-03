@@ -15,7 +15,12 @@ module.exports = function({ bucket, manifestKey, healthCheckerUA, sentryDSN, fas
 
   fastbootConfig = {...FASTBOOT_DEFAULTS, ...fastbootConfig};
 
-  Raven.config(sentryDSN).install();
+  if (sentryDSN) {
+    Raven.config(sentryDSN).install();
+  } else {
+    console.log("You must provide a Sentry DSN.");
+    process.exit(1);
+  }
 
   let downloader = new S3Downloader({
     bucket,
