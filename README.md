@@ -11,7 +11,8 @@ const fastboot = require('nypr-fastboot');
 const server = fastboot({
   bucket: process.env.AWS_BUCKET,
   manifestKey: process.env.FASTBOOT_MANIFEST,
-  healthCheckerUA: 'ELB-HealthChecker'
+  healthCheckerUA: 'ELB-HealthChecker',
+  sentryDSN: process.ENV.SENTRY_DSN
 });
 
 server.start();
@@ -25,6 +26,7 @@ const server = fastboot({
   bucket: process.env.AWS_BUCKET,
   manifestKey: process.env.FASTBOOT_MANIFEST,
   healthCheckerUA: 'ELB-HealthChecker',
+  sentryDSN: process.ENV.SENTRY_DSN,
   fastbootConfig: { port: 5000 },
 })
 ```
