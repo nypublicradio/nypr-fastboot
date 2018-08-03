@@ -21,7 +21,8 @@
     "eslint": "^5.2.0",
     "fastboot-app-server": "^1.1.2-beta.1",
     "fastboot-s3-downloader": "^0.2.2",
-    "fastboot-s3-notifier": "^0.1.2"
+    "fastboot-s3-notifier": "^0.1.2",
+    "raven": "^2.6.3"
   },
   "devDependencies": {
     "aws-sdk-mock": "^4.0.0",

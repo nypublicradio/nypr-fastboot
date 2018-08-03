@@ -11,7 +11,8 @@ const fastboot = require('nypr-fastboot');
 const server = fastboot({
   bucket: process.env.AWS_BUCKET,
   manifestKey: process.env.FASTBOOT_MANIFEST,
-  healthCheckerUA: 'ELB-HealthChecker'
+  healthCheckerUA: 'ELB-HealthChecker',
+  sentryDSN: process.ENV.SENTRY_DSN
 });
 
 server.start();
@@ -25,6 +26,7 @@ const server = fastboot({
   bucket: process.env.AWS_BUCKET,
   manifestKey: process.env.FASTBOOT_MANIFEST,
   healthCheckerUA: 'ELB-HealthChecker',
+  sentryDSN: process.ENV.SENTRY_DSN,
   fastbootConfig: { port: 5000 },
 })
 ```
@@ -55,3 +57,9 @@ Run the tests with:
 ```node
 $ npm test
 ```
+
+## Sentry
+To configure sentry, create a new project at https://sentry.wnyc.org/sentry/. 
+The creation of that project will automatically generate a DSN. It will look something like this: `https://<KEY>@sentry.wnyc.org/<PROJECT_ID>`.
+ 
+In the project that imports this library, make sure to include the `sentryDSN` parameter when initializing the fastboot server. Best practices around this are to set `sentryDSN` to an environment variable which can be configured at deployment time.
