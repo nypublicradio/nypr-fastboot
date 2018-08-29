@@ -22,26 +22,34 @@ module.exports = function({ bucket, manifestKey, healthCheckerUA, sentryDSN, fas
     process.exit(1);
   }
 
-  let downloader = new S3Downloader({
-    bucket,
-    key: manifestKey,
-  });
+  let beforeMiddleware = app => {
+    app.use(healthChecker({ uaString: healthCheckerUA }));
+    app.use(preview({ bucket }));
+  }
 
-  let notifier = new S3Notifier({
-    bucket,
-    key: manifestKey,
-  });
+  if (fastbootConfig.distPath) {
+    console.log('`distPath` specified. running in local mode.');
+    return new FastBootAppServer({
+      beforeMiddleware,
+      ...fastbootConfig,
+    });
+  } else {
+    let downloader = new S3Downloader({
+      bucket,
+      key: manifestKey,
+    });
 
-  let server = new FastBootAppServer({
-    beforeMiddleware(app) {
-      app.use(healthChecker({ uaString: healthCheckerUA }));
-      app.use(preview({ bucket }));
-    },
-    downloader,
-    notifier,
-    ...fastbootConfig,
-  });
+    let notifier = new S3Notifier({
+      bucket,
+      key: manifestKey,
+    });
 
-  return server;
+    return new FastBootAppServer({
+      beforeMiddleware,
+      downloader,
+      notifier,
+      ...fastbootConfig,
+    });
+  }
 
 }
