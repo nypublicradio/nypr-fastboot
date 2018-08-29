@@ -25,7 +25,10 @@ module.exports = function({ bucket, manifestKey, healthCheckerUA, sentryDSN, fas
   let beforeMiddleware = app => {
     app.use(healthChecker({ uaString: healthCheckerUA }));
     app.use(preview({ bucket }));
-    app.use((req, res, next) => res.type('text/html'));
+    app.use((req, res, next) => {
+      res.type('text/html');
+      next();
+    });
   }
 
   if (fastbootConfig.distPath) {
