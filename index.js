@@ -2,6 +2,7 @@ const FastBootAppServer = require('fastboot-app-server');
 const S3Downloader = require('fastboot-s3-downloader');
 const S3Notifier = require('fastboot-s3-notifier');
 const Raven = require('raven');
+const morgan = require('morgan');
 
 const healthChecker = require('./lib/health-checker-middleware');
 const preview = require('./lib/preview-middleware');
@@ -23,6 +24,7 @@ module.exports = function({ bucket, manifestKey, healthCheckerUA, sentryDSN, fas
   }
 
   let beforeMiddleware = app => {
+    app.use(morgan('combined'));
     app.use(healthChecker({ uaString: healthCheckerUA }));
     app.use(preview({ bucket }));
     app.use((req, res, next) => {
