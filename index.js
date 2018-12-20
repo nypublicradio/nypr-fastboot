@@ -24,8 +24,18 @@ module.exports = function({ bucket, manifestKey, healthCheckerUA, sentryDSN, fas
   }
 
   let beforeMiddleware = app => {
-    app.use(morgan('combined', {
-              skip: function (req, res) { return req.headers['user-agent'] == 'ELB-HealthChecker/2.0' } }));
+    app.use(morgan('{"@timestamp"\: ":date[clf]","message"\: "\
+clientip\::req[x-forwarded-for]|\
+user\::remote-user|\
+verb\::method|\
+request\::url|\
+protocol\::http-version|\
+status\::status|\
+size\::res[content-length]|\
+referrer\:":referrer"|\
+agent\:":user-agent"|\
+duration\::response-time"}',
+              { skip: function (req, res) { return req.headers['user-agent'] == 'ELB-HealthChecker/2.0' } }));
     app.use(healthChecker({ uaString: healthCheckerUA }));
     app.use(preview({ bucket }));
     app.use((req, res, next) => {
