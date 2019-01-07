@@ -1,7 +1,7 @@
 const FastBootAppServer = require('fastboot-app-server');
 const S3Downloader = require('fastboot-s3-downloader');
 const S3Notifier = require('fastboot-s3-notifier');
-const Raven = require('raven');
+const Sentry = require('@sentry/node');
 const morgan = require('morgan');
 
 const healthChecker = require('./lib/health-checker-middleware');
@@ -17,7 +17,7 @@ module.exports = function({ bucket, manifestKey, healthCheckerUA, sentryDSN, fas
   fastbootConfig = {...FASTBOOT_DEFAULTS, ...fastbootConfig};
 
   if (sentryDSN) {
-    Raven.config(sentryDSN).install();
+    Sentry.init({ dsn: sentryDSN });
   } else {
     console.log("You must provide a Sentry DSN.");
     process.exit(1);

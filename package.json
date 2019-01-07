@@ -17,13 +17,13 @@
   },
   "homepage": "https://github.com/nypublicradio/nypr-fastboot#readme",
   "dependencies": {
+    "@sentry/node": "4.4.2",
     "aws-sdk": "^2.279.1",
     "eslint": "^5.2.0",
     "fastboot-app-server": "^1.1.2-beta.1",
     "fastboot-s3-downloader": "^0.2.2",
     "fastboot-s3-notifier": "^0.1.2",
-    "morgan": "^1.9.1",
-    "raven": "^2.6.3"
+    "morgan": "^1.9.1"
   },
   "devDependencies": {
     "aws-sdk-mock": "^4.0.0",
