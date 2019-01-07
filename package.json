@@ -1,6 +1,6 @@
 {
   "name": "nypr-fastboot",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "description": "FastBoot Server for NYPR Apps",
   "main": "index.js",
   "scripts": {
