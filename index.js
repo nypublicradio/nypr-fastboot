@@ -18,6 +18,11 @@ module.exports = function({ bucket, manifestKey, healthCheckerUA, sentryDSN, fas
 
   if (sentryDSN) {
     Sentry.init({ dsn: sentryDSN });
+    try {
+      throw new Error('Sentry integration is working.');
+    } catch (err) {
+      Sentry.captureException(err);
+    }
   } else {
     console.log("You must provide a Sentry DSN.");
     process.exit(1);
