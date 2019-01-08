@@ -29,7 +29,12 @@ module.exports = function({ bucket, manifestKey, healthCheckerUA, sentryDSN, fas
   }
 
   let beforeMiddleware = app => {
-    app.use(morgan('{"@timestamp"\: ":date[clf]","message"\: "\
+    /* The reason for the weird colon escaping here is the Morgan Library. 
+    The way it identifies special keywords is to preceed them with a ':', i.e. ':remote-user'
+    So if we want to include actual ':' in the string message, they must be escaped.*/
+    app.use(morgan('{\
+"@timestamp"\: ":date[clf]",\
+"message"\: "\
 clientip\::req[x-forwarded-for]|\
 user\::remote-user|\
 verb\::method|\
@@ -40,7 +45,7 @@ size\::res[content-length]|\
 referrer\:":referrer"|\
 agent\:":user-agent"|\
 duration\::response-time"}',
-              { skip: function (req, res) { return req.headers['user-agent'] == 'ELB-HealthChecker/2.0' } }));
+        { skip: req => req.headers['user-agent'] == 'ELB-HealthChecker/2.0' }));
     app.use(healthChecker({ uaString: healthCheckerUA }));
     app.use(preview({ bucket }));
     app.use((req, res, next) => {
