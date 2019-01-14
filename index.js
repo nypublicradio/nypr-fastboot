@@ -3,6 +3,7 @@ const S3Downloader = require('fastboot-s3-downloader');
 const S3Notifier = require('fastboot-s3-notifier');
 const Sentry = require('@sentry/node');
 const morgan = require('morgan');
+const statsd = require('express-statsd')
 
 const healthChecker = require('./lib/health-checker-middleware');
 const preview = require('./lib/preview-middleware');
@@ -18,17 +19,14 @@ module.exports = function({ bucket, manifestKey, healthCheckerUA, sentryDSN, fas
 
   if (sentryDSN) {
     Sentry.init({ dsn: sentryDSN });
-    try {
-      throw new Error('Sentry integration is working.');
-    } catch (err) {
-      Sentry.captureException(err);
-    }
   } else {
     console.log("You must provide a Sentry DSN.");
     process.exit(1);
   }
 
   let beforeMiddleware = app => {
+    app.use(Sentry.Handlers.requestHandler());
+    app.use(Sentry.Handlers.errorHandler());
     /* The reason for the weird colon escaping here is the Morgan Library. 
     The way it identifies special keywords is to preceed them with a ':', i.e. ':remote-user'
     So if we want to include actual ':' in the string message, they must be escaped.*/
@@ -46,6 +44,7 @@ referrer\:":referrer"|\
 agent\:":user-agent"|\
 duration\::response-time"}',
         { skip: req => req.headers['user-agent'] == 'ELB-HealthChecker/2.0' }));
+    app.use(statsd({host: 'graphite.nypr.digital'}));
     app.use(healthChecker({ uaString: healthCheckerUA }));
     app.use(preview({ bucket }));
     app.use((req, res, next) => {
