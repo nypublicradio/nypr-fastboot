@@ -17,6 +17,9 @@ module.exports = function({ bucket, manifestKey, healthCheckerUA, sentryDSN, fas
 
   fastbootConfig = {...FASTBOOT_DEFAULTS, ...fastbootConfig};
 
+  env = process.env.ENV || 'dev'
+  service = process.env.SERVICE || 'fastboot'
+
   if (sentryDSN) {
     Sentry.init({ dsn: sentryDSN });
   } else {
@@ -44,7 +47,7 @@ referrer\:":referrer"|\
 agent\:":user-agent"|\
 duration\::response-time"}',
         { skip: req => req.headers['user-agent'] == 'ELB-HealthChecker/2.0' }));
-    app.use(statsd({host: 'graphite.nypr.digital'}));
+    app.use(statsd({host: 'graphite.nypr.digital', requestKey: env+'.'+service}));
     app.use(healthChecker({ uaString: healthCheckerUA }));
     app.use(preview({ bucket }));
     app.use((req, res, next) => {
