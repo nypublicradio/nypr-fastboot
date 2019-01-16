@@ -13,12 +13,9 @@ const FASTBOOT_DEFAULTS = {
   chunkedResponse: true,
 };
 
-module.exports = function({ bucket, manifestKey, healthCheckerUA, sentryDSN, fastbootConfig = {} }) {
+module.exports = function({ bucket, manifestKey, healthCheckerUA, sentryDSN, fastbootConfig = {}, env = 'dev', serviceName = 'fastboot' }) {
 
   fastbootConfig = {...FASTBOOT_DEFAULTS, ...fastbootConfig};
-
-  env = process.env.ENV || 'dev'
-  service = process.env.SERVICE || 'fastboot'
 
   if (sentryDSN) {
     Sentry.init({ dsn: sentryDSN });
