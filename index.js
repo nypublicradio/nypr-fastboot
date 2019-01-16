@@ -44,7 +44,7 @@ referrer\:":referrer"|\
 agent\:":user-agent"|\
 duration\::response-time"}',
         { skip: req => req.headers['user-agent'] == 'ELB-HealthChecker/2.0' }));
-    app.use(statsd({host: 'graphite.nypr.digital', requestKey: env+'.'+service}));
+    app.use(statsd({host: 'graphite.nypr.digital', requestKey: env+'.'+serviceName}));
     app.use(healthChecker({ uaString: healthCheckerUA }));
     app.use(preview({ bucket }));
     app.use((req, res, next) => {
