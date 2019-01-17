@@ -632,13 +632,6 @@ exists-sync@0.0.4:
   version "0.0.4"
   resolved "https://registry.yarnpkg.com/exists-sync/-/exists-sync-0.0.4.tgz#9744c2c428cc03b01060db454d4b12f0ef3c8879"
 
-express-statsd@^0.3.0:
-  version "0.3.0"
-  resolved "https://registry.yarnpkg.com/express-statsd/-/express-statsd-0.3.0.tgz#cb60b8e4f633adc7eaaefb5819698b469c00b1bd"
-  dependencies:
-    lynx "~0.0.11"
-    obj-extend "~0.1.0"
-
 express@^4.13.3:
   version "4.16.3"
   resolved "https://registry.yarnpkg.com/express/-/express-4.16.3.tgz#6af8a502350db3246ecc4becf6b5a34d22f7ed53"
@@ -1190,9 +1183,9 @@ lsmod@1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/lsmod/-/lsmod-1.0.0.tgz#9a00f76dca36eb23fa05350afe1b585d4299e64b"
 
-lynx@~0.0.11:
-  version "0.0.11"
-  resolved "https://registry.yarnpkg.com/lynx/-/lynx-0.0.11.tgz#2cfa14e443fd2d92a59b779f41567ce1cc6965a3"
+lynx@^0.2.0:
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/lynx/-/lynx-0.2.0.tgz#79e6674530da4183e87953bd686171e070da50b9"
   dependencies:
     mersenne "~0.0.3"
     statsd-parser "~0.0.4"
@@ -1323,7 +1316,7 @@ oauth-sign@~0.8.2:
   version "0.8.2"
   resolved "https://registry.yarnpkg.com/oauth-sign/-/oauth-sign-0.8.2.tgz#46a6ab7f0aead8deae9ec0565780b7d4efeb9d43"
 
-obj-extend@~0.1.0:
+obj-extend@^0.1.0:
   version "0.1.0"
   resolved "https://registry.yarnpkg.com/obj-extend/-/obj-extend-0.1.0.tgz#bb448a4775fb95eb34a781f908bbac2df23dbb5b"
 

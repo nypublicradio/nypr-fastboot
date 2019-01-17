@@ -69,7 +69,7 @@ The creation of that project will automatically generate a DSN. It will look som
 In the project that imports this library, make sure to include the `sentryDSN` parameter when initializing the fastboot server. Best practices around this are to set `sentryDSN` to an environment variable which can be configured at deployment time.
 
 ## Statsd
-Statsd is a metrics collection and aggregation agent that can plug into a number of backends. We use it to send application metrics to our graphite backend. The collector is installed on the same machine that graphite runs on, and the client responsible for generating and sending metrics is included as a middleware here. The source code can be found here: https://github.com/uber/express-statsd
+Statsd is a metrics collection and aggregation agent that can plug into a number of backends. We use it to send application metrics to our graphite backend. The collector is installed on the same machine that graphite runs on, and the client responsible for generating and sending metrics is included as a middleware in the lib directory.
 
-The `env` and `serviceName` parameters passed into the fastboot constructor are used to namespace the metrics being sent to statsd. Examples of these parameters are `env: 'demo'` and `serviceName: 'wnyc-studios-web-client'`.
+The `env` and `serviceName` parameters passed into the fastboot constructor are used to namespace the metrics being sent to statsd. Examples of these parameters are `env: 'demo'` and `serviceName: 'wnyc-studios-web-client'`. Passing in these parameters will produce a metric with the following name `stats.demo.wnyc-studios-web-client.<metric_type>.<metric_name>`.
 
