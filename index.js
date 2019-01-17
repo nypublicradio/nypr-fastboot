@@ -3,8 +3,8 @@ const S3Downloader = require('fastboot-s3-downloader');
 const S3Notifier = require('fastboot-s3-notifier');
 const Sentry = require('@sentry/node');
 const morgan = require('morgan');
-const statsd = require('express-statsd')
 
+const statsd = require('./lib/statsd-client-middleware')
 const healthChecker = require('./lib/health-checker-middleware');
 const preview = require('./lib/preview-middleware');
 
@@ -44,7 +44,7 @@ referrer\:":referrer"|\
 agent\:":user-agent"|\
 duration\::response-time"}',
         { skip: req => req.headers['user-agent'] == 'ELB-HealthChecker/2.0' }));
-    app.use(statsd({host: 'graphite.nypr.digital', requestKey: env+'.'+serviceName}));
+    app.use(statsd({host: 'graphite.nypr.digital', namespace: `${env}.${serviceName}`}));
     app.use(healthChecker({ uaString: healthCheckerUA }));
     app.use(preview({ bucket }));
     app.use((req, res, next) => {

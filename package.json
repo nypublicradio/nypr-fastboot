@@ -1,6 +1,6 @@
 {
   "name": "nypr-fastboot",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "description": "FastBoot Server for NYPR Apps",
   "main": "index.js",
   "scripts": {
@@ -20,11 +20,12 @@
     "@sentry/node": "4.4.2",
     "aws-sdk": "^2.279.1",
     "eslint": "^5.2.0",
-    "express-statsd": "^0.3.0",
     "fastboot-app-server": "^1.1.2-beta.1",
     "fastboot-s3-downloader": "^0.2.2",
     "fastboot-s3-notifier": "^0.1.2",
-    "morgan": "^1.9.1"
+    "lynx": "^0.2.0",
+    "morgan": "^1.9.1",
+    "obj-extend": "^0.1.0"
   },
   "devDependencies": {
     "aws-sdk-mock": "^4.0.0",
