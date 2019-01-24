@@ -20,7 +20,7 @@
     "@sentry/node": "4.4.2",
     "aws-sdk": "^2.279.1",
     "eslint": "^5.2.0",
-    "fastboot-app-server": "^1.1.2-beta.1",
+    "fastboot-app-server": "ncastro-nypr/fastboot-app-server#master",
     "fastboot-s3-downloader": "^0.2.2",
     "fastboot-s3-notifier": "^0.1.2",
     "lynx": "^0.2.0",
