@@ -17,16 +17,14 @@ module.exports = function({ bucket, manifestKey, healthCheckerUA, sentryDSN, fas
 
   fastbootConfig = {...FASTBOOT_DEFAULTS, ...fastbootConfig};
 
-  if (sentryDSN) {
-    Sentry.init({ dsn: sentryDSN });
-  } else {
-    console.log("You must provide a Sentry DSN.");
-    process.exit(1);
-  }
-
   let beforeMiddleware = app => {
-    app.use(Sentry.Handlers.requestHandler());
-    app.use(Sentry.Handlers.errorHandler());
+    if (sentryDSN) {
+      Sentry.init({ dsn: sentryDSN });
+      app.use(Sentry.Handlers.requestHandler());
+      app.use(Sentry.Handlers.errorHandler());
+    } else {
+      console.warn("SENTRY_DSN not provided, errors will not be reported to Sentry.");
+    }
     /* The reason for the weird colon escaping here is the Morgan Library. 
     The way it identifies special keywords is to preceed them with a ':', i.e. ':remote-user'
     So if we want to include actual ':' in the string message, they must be escaped.*/
