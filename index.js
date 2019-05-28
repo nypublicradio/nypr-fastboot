@@ -18,7 +18,7 @@ module.exports = function({ bucket, manifestKey, healthCheckerUA, sentryDSN, fas
   fastbootConfig = {...FASTBOOT_DEFAULTS, ...fastbootConfig};
 
   if (sentryDSN) {
-    Sentry.init({ dsn: sentryDSN });
+    Sentry.init({ dsn: sentryDSN, environment: env });
   } else {
     console.log("You must provide a Sentry DSN.");
     process.exit(1);
