@@ -13,7 +13,7 @@ const FASTBOOT_DEFAULTS = {
   chunkedResponse: true,
 };
 
-module.exports = function({ bucket, manifestKey, healthCheckerUA, sentryDSN, fastbootConfig = {}, env = 'dev', serviceName = 'fastboot' }) {
+module.exports = function({ bucket, manifestKey, healthCheckerUA, sentryDSN, loggerOptions, fastbootConfig = {}, env = 'dev', serviceName = 'fastboot' }) {
 
   fastbootConfig = {...FASTBOOT_DEFAULTS, ...fastbootConfig};
 
@@ -28,7 +28,9 @@ module.exports = function({ bucket, manifestKey, healthCheckerUA, sentryDSN, fas
   let beforeMiddleware = app => {
     app.use(Sentry.Handlers.requestHandler());
     app.use(Sentry.Handlers.errorHandler());
-    app.use(logger());
+
+    app.use(logger(loggerOptions));
+
     app.use(statsd({host: 'graphite.nypr.digital', namespace: `${env}.${serviceName}`}));
     app.use(healthChecker({ uaString: healthCheckerUA }));
     app.use(preview({ bucket }));
