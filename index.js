@@ -19,7 +19,8 @@ module.exports = function({ bucket, manifestKey, healthCheckerUA, sentryDSN, fas
 
   if (sentryDSN) {
     Sentry.init({ dsn: sentryDSN });
-  } else {
+  } else if (env !== 'dev') {
+    // eslint-disable-next-line
     console.log("You must provide a Sentry DSN.");
     process.exit(1);
   }
@@ -31,13 +32,15 @@ module.exports = function({ bucket, manifestKey, healthCheckerUA, sentryDSN, fas
     app.use(statsd({host: 'graphite.nypr.digital', namespace: `${env}.${serviceName}`}));
     app.use(healthChecker({ uaString: healthCheckerUA }));
     app.use(preview({ bucket }));
-    app.use((req, res, next) => {
+
+    app.use((_req, res, next) => {
       res.type('text/html');
       next();
     });
   }
 
   if (fastbootConfig.distPath) {
+    // eslint-disable-next-line
     console.log('`distPath` specified. running in local mode.');
     return new FastBootAppServer({
       beforeMiddleware,
