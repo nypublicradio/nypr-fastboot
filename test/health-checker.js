@@ -40,5 +40,30 @@ describe('health checker middleware', function() {
 
     next.verify();
     response.sendStatus.verify();
-  })
+  });
+
+  it('respects the new API, sending a 200 at the configured route', function() {
+    const response = {sendStatus: sinon.mock('send response').withArgs(200).once()};
+    const next = sinon.mock('next').never();
+
+    const healthChecker = middleware({strategy: 'path'});
+
+    healthChecker({}, response, next);
+
+    next.verify();
+    response.sendStatus.verify();
+  });
+
+  it('respects the new API, responding to a UA string', function() {
+    const UA_STRING = 'foo-bar';
+    const response = {sendStatus: sinon.mock('send response').withArgs(200).once()};
+    const next = sinon.mock('next').never();
+
+    const healthChecker = middleware({ strategy: 'ua-sniff', string: UA_STRING });
+
+    healthChecker({ headers: {'user-agent': UA_STRING }}, response, next);
+
+    next.verify();
+    response.sendStatus.verify();
+  });
 });
