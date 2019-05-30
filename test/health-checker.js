@@ -16,7 +16,7 @@ describe('health checker middleware', function() {
     response.sendStatus.verify();
   });
 
-  it('it sends an empty 200 on partial matches', async function() {
+  it('it sends an empty 200 on partial matches', function() {
     const UA_STRING = 'foo';
     const response = {sendStatus: sinon.mock('send response').withArgs(200).once()};
     const next = sinon.mock('next').never();
@@ -29,7 +29,7 @@ describe('health checker middleware', function() {
     response.sendStatus.verify();
   });
 
-  it('calls next if the user agent does not match', async function() {
+  it('calls next if the user agent does not match', function() {
     const UA_STRING = 'foo-bar';
     const response = {sendStatus: sinon.mock('send response').never()};
     const next = sinon.mock('next').once();
