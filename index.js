@@ -32,7 +32,15 @@ module.exports = function({ bucket, manifestKey, healthCheckerUA, sentryDSN, log
     app.use(logger(loggerOptions));
 
     app.use(statsd({host: 'graphite.nypr.digital', namespace: `${env}.${serviceName}`}));
-    app.use(healthChecker({ uaString: healthCheckerUA }));
+
+    if (healthCheckerUA) {
+      // eslint-disable-next-line
+      console.warn("Health Checker User Agent string provided. Please upgrade to using the path strategy.");
+      app.use(healthChecker({ uaString: healthCheckerUA }));
+    } else {
+      app.use('/_health', healthChecker({strategy: 'path'}));
+    }
+
     app.use(preview({ bucket }));
 
     app.use((_req, res, next) => {
