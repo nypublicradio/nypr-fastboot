@@ -184,8 +184,8 @@ aws-sdk-mock@^4.0.0:
     traverse "^0.6.6"
 
 aws-sdk@^2.260.1, aws-sdk@^2.279.1, aws-sdk@^2.3.4:
-  version "2.279.1"
-  resolved "https://registry.yarnpkg.com/aws-sdk/-/aws-sdk-2.279.1.tgz#3a4fd4167932e4361dbdcfcb174ce4840ffcbf20"
+  version "2.493.0"
+  resolved "https://registry.yarnpkg.com/aws-sdk/-/aws-sdk-2.493.0.tgz#2526208efc0fff91529c41c1d9f5cd15cdfcc937"
   dependencies:
     buffer "4.9.1"
     events "1.1.1"
@@ -194,7 +194,7 @@ aws-sdk@^2.260.1, aws-sdk@^2.279.1, aws-sdk@^2.3.4:
     querystring "0.2.0"
     sax "1.2.1"
     url "0.10.3"
-    uuid "3.1.0"
+    uuid "3.3.2"
     xml2js "0.4.19"
 
 aws-sign2@~0.7.0:
@@ -1840,11 +1840,7 @@ utils-merge@1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/utils-merge/-/utils-merge-1.0.1.tgz#9f95710f50a267947b2ccc124741c1028427e713"
 
-uuid@3.1.0:
-  version "3.1.0"
-  resolved "https://registry.yarnpkg.com/uuid/-/uuid-3.1.0.tgz#3dd3d3e790abc24d7b0d3a034ffababe28ebbc04"
-
-uuid@^3.1.0:
+uuid@3.3.2, uuid@^3.1.0:
   version "3.3.2"
   resolved "https://registry.yarnpkg.com/uuid/-/uuid-3.3.2.tgz#1b4af4955eb3077c501c23872fc6513811587131"
 
