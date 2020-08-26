@@ -1,3 +1,4 @@
+const express = require('express');
 const FastBootAppServer = require('fastboot-app-server');
 const S3Downloader = require('fastboot-s3-downloader');
 const S3Notifier = require('fastboot-s3-notifier');
@@ -44,7 +45,10 @@ module.exports = function({ bucket, manifestKey, healthCheckerUA, sentryDSN, log
     app.use(preview({ bucket }));
 
     if (fastbootConfig.distPath) {
-      app.use(express.static('/assets'));
+      let assetPath = path.join(__dirname, 'assets');
+      console.log('TKTK set assetPath to');
+      console.log(assetPath);
+      app.use('/assets', express.static());
     }
 
     app.use((_req, res, next) => {
