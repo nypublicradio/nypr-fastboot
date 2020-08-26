@@ -45,16 +45,21 @@ module.exports = function({ bucket, manifestKey, healthCheckerUA, sentryDSN, log
     app.use(preview({ bucket }));
 
     if (fastbootConfig.distPath) {
+      // if distPath isn't set, we're running locally
       let assetPath = path.join(__dirname, 'assets');
       console.log('TKTK set assetPath to');
       console.log(assetPath);
       app.use('/assets', express.static());
-    }
-
-    app.use((_req, res, next) => {
-      res.type('text/html');
-      next();
+    } else {
+      // if not running locally,
+      // static assets will be served from CDN
+      // w correct content-type, so just default
+      // to serving text/html from Fastboot
+      app.use((_req, res, next) => {
+        res.type('text/html');
+        next();
     });
+    }
   }
 
   if (fastbootConfig.distPath) {
