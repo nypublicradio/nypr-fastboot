@@ -43,6 +43,10 @@ module.exports = function({ bucket, manifestKey, healthCheckerUA, sentryDSN, log
 
     app.use(preview({ bucket }));
 
+    if (fastbootConfig.distPath) {
+      app.use(express.static('/assets'));
+    }
+
     app.use((_req, res, next) => {
       res.type('text/html');
       next();
