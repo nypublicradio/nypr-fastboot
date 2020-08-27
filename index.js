@@ -1,6 +1,3 @@
-const path = require('path');
-const express = require('express');
-
 const FastBootAppServer = require('fastboot-app-server');
 const S3Downloader = require('fastboot-s3-downloader');
 const S3Notifier = require('fastboot-s3-notifier');
@@ -48,11 +45,9 @@ module.exports = function({ bucket, manifestKey, healthCheckerUA, sentryDSN, log
 
     if (fastbootConfig.distPath) {
       // if distPath isn't set, we're running locally
+      const path = require('path');
+      const express = require('express');
       let assetPath = path.join(fastbootConfig.distPath, 'assets');
-      console.log('TKTK distPath is:');
-      console.log(distPath);
-      console.log('TKTK set assetPath to');
-      console.log(assetPath);
       app.use('/assets', express.static(assetPath));
     } else {
       // if not running locally,
