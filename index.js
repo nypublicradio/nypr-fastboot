@@ -44,21 +44,17 @@ module.exports = function({ bucket, manifestKey, healthCheckerUA, sentryDSN, log
     app.use(preview({ bucket }));
 
     if (fastbootConfig.distPath) {
-      // if distPath is set, we're running locally
+      // if distPath ist set, we're running locally
       const path = require('path');
       const express = require('express');
       let assetPath = path.join(fastbootConfig.distPath, 'assets');
       app.use('/assets', express.static(assetPath));
-    } else {
-      // if not running locally,
-      // static assets will be served from CDN
-      // w correct content-type, so just default
-      // to serving text/html from Fastboot
-      app.use((_req, res, next) => {
-        res.type('text/html');
-        next();
-    });
     }
+    // default to marking everything else text/html
+    app.use((_req, res, next) => {
+      res.type('text/html');
+      next();
+    });
   }
 
   if (fastbootConfig.distPath) {
