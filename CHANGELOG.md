@@ -1,5 +1,9 @@
 # nypr-fastboot
 
+## 0.8.0
+
+- ENHANCEMENT: update Sentry to v5.29.2
+
 ## 0.7.1
 - ENHANCEMENT: use express to serve static files when running in local mode
 
