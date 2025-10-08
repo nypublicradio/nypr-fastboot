@@ -18,7 +18,15 @@ module.exports = function({ bucket, manifestKey, healthCheckerUA, sentryDSN, log
   fastbootConfig = {...FASTBOOT_DEFAULTS, ...fastbootConfig};
 
   if (sentryDSN) {
-    Sentry.init({ dsn: sentryDSN });
+    Sentry.init({ 
+      dsn: sentryDSN,
+      // Add performance monitoring
+      tracesSampleRate: 0.01,
+      // Add integrations for better Node.js support
+      integrations: [
+        ...Sentry.autoDiscoverNodePerformanceMonitoringIntegrations(),
+      ],
+    });
   } else if (env !== 'dev') {
     // eslint-disable-next-line
     console.log("You must provide a Sentry DSN.");
@@ -26,9 +34,6 @@ module.exports = function({ bucket, manifestKey, healthCheckerUA, sentryDSN, log
   }
 
   let beforeMiddleware = app => {
-    app.use(Sentry.Handlers.requestHandler());
-    app.use(Sentry.Handlers.errorHandler());
-
     app.use(logger(loggerOptions));
 
     app.use(statsd({host: 'graphite.nypr.digital', namespace: `${env}.${serviceName}`}));
@@ -55,6 +60,11 @@ module.exports = function({ bucket, manifestKey, healthCheckerUA, sentryDSN, log
       res.type('text/html');
       next();
     });
+
+    // Sentry error handler must be added after all other middleware and routes
+    if (sentryDSN) {
+      Sentry.setupExpressErrorHandler(app);
+    }
   }
 
   if (fastbootConfig.distPath) {
