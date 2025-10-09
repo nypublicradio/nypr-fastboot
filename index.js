@@ -22,10 +22,7 @@ module.exports = function({ bucket, manifestKey, healthCheckerUA, sentryDSN, log
       dsn: sentryDSN,
       // Add performance monitoring
       tracesSampleRate: 0.01,
-      // Add integrations for better Node.js support
-      integrations: [
-        ...Sentry.autoDiscoverNodePerformanceMonitoringIntegrations(),
-      ],
+
     });
   } else if (env !== 'dev') {
     // eslint-disable-next-line
