@@ -5,7 +5,7 @@ const FastBootAppServer = require('fastboot-app-server');
 const S3Downloader = require('fastboot-s3-downloader');
 const S3Notifier = require('fastboot-s3-notifier');
 const path = require('path');
-const express = require('express');
+// Note: Express is required conditionally after Sentry.init()
 
 const healthChecker = require('./lib/health-checker-middleware');
 const preview = require('./lib/preview-middleware');
@@ -36,6 +36,9 @@ module.exports = function({ bucket, manifestKey, healthCheckerUA, sentryDSN, log
     console.log("You must provide a Sentry DSN.");
     process.exit(1);
   }
+
+  // Require Express after Sentry is initialized to ensure proper instrumentation
+  const express = require('express');
 
   let beforeMiddleware = app => {
 
