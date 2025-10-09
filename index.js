@@ -1,39 +1,45 @@
+// Initialize Sentry first, before any other imports
+const Sentry = require('@sentry/node');
+
 const FastBootAppServer = require('fastboot-app-server');
 const S3Downloader = require('fastboot-s3-downloader');
 const S3Notifier = require('fastboot-s3-notifier');
-const Sentry = require('@sentry/node');
+const path = require('path');
+const express = require('express');
 
-const statsd = require('./lib/statsd-client-middleware')
 const healthChecker = require('./lib/health-checker-middleware');
 const preview = require('./lib/preview-middleware');
 const logger = require('./lib/logger-middleware');
+
+// Set up a flag to ensure Sentry is only initialized once
+let sentryInitialized = false;
 
 const FASTBOOT_DEFAULTS = {
   gzip: true,
   chunkedResponse: true,
 };
 
-module.exports = function({ bucket, manifestKey, healthCheckerUA, sentryDSN, loggerOptions, fastbootConfig = {}, env = 'dev', serviceName = 'fastboot' }) {
+module.exports = function({ bucket, manifestKey, healthCheckerUA, sentryDSN, loggerOptions, fastbootConfig = {}, env = 'dev' }) {
 
   fastbootConfig = {...FASTBOOT_DEFAULTS, ...fastbootConfig};
 
-  if (sentryDSN) {
+  // Initialize Sentry early if DSN is provided and not already initialized
+  if (sentryDSN && !sentryInitialized) {
     Sentry.init({ 
       dsn: sentryDSN,
       // Add performance monitoring
       tracesSampleRate: 0.01,
-
     });
-  } else if (env !== 'dev') {
+    sentryInitialized = true;
+  } else if (!sentryDSN && env !== 'dev') {
     // eslint-disable-next-line
     console.log("You must provide a Sentry DSN.");
     process.exit(1);
   }
 
   let beforeMiddleware = app => {
-    app.use(logger(loggerOptions));
 
-    app.use(statsd({host: 'graphite.nypr.digital', namespace: `${env}.${serviceName}`}));
+    app.use(logger(loggerOptions));
 
     if (healthCheckerUA) {
       // eslint-disable-next-line
@@ -47,8 +53,6 @@ module.exports = function({ bucket, manifestKey, healthCheckerUA, sentryDSN, log
 
     if (fastbootConfig.distPath) {
       // if distPath is set, we're running locally
-      const path = require('path');
-      const express = require('express');
       let assetPath = path.join(fastbootConfig.distPath, 'assets');
       app.use('/assets', express.static(assetPath));
     }
